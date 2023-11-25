@@ -13,7 +13,9 @@ RACE=-race
 rm -rf mr-tmp
 mkdir mr-tmp || exit 1
 cd mr-tmp || exit 1
+set -o nullglob
 rm -f mr-*
+set +o nullglob
 
 # make sure software is freshly built.
 (cd ../../mrapps && go build $RACE -buildmode=plugin wc.go) || exit 1
