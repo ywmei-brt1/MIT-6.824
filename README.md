@@ -26,7 +26,7 @@ MIT 6.824 课程的学习资料 代码更新为2021版
 
 - 课前问题：[对分布式系统课程有啥想说的？](https://github.com/chaozh/MIT-6.824/issues/1)
 - [Lab0 完成Crawler与KV的Go语言实验](https://github.com/chaozh/MIT-6.824/issues/4)
-- Lab1 MapReduce实验
+- Lab1 MapReduce实验 [2020](http://nil.csail.mit.edu/6.824/2020/labs/lab-mr.html), [2023](https://pdos.csail.mit.edu/6.824/labs/lab-mr.html)
 - [Lec3 请描述客户端从GFS读数据的大致流程？](https://github.com/chaozh/MIT-6.824/issues/6)
 - [Lec4 论文中VM FT如何处理网络分区问题？](https://github.com/chaozh/MIT-6.824/issues/7)
 - [Lec5 Raft什么机制会阻止他们当选？](https://github.com/chaozh/MIT-6.824/issues/9)
