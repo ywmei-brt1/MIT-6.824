@@ -5,7 +5,7 @@ plugin:
 	go build -buildmode=plugin ../mrapps/wc.go
 
 clean:
-	rm mr-out*
+	rm -f mr-out* & rm -f coordinator.log & rm -f mr-*-*
 
 coordinator:
 	make plugin & make clean & go run mrcoordinator.go pg-*.txt
