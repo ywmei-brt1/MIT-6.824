@@ -187,40 +187,44 @@ rm -f mr-*
 
 echo '***' Starting early exit test.
 
-timeout -k 2s 180s ../mrcoordinator ../pg*txt &
+bash -c '
+  echo "This code is running in Bash as zsh does not support wait -n"
+  timeout -k 2s 180s ../mrcoordinator ../pg*txt &
 
-# give the coordinator time to create the sockets.
-sleep 1
+  # give the coordinator time to create the sockets.
+  sleep 1
 
-# start multiple workers.
-timeout -k 2s 180s ../mrworker ../../mrapps/early_exit.so &
-timeout -k 2s 180s ../mrworker ../../mrapps/early_exit.so &
-timeout -k 2s 180s ../mrworker ../../mrapps/early_exit.so &
+  # start multiple workers.
+  timeout -k 2s 180s ../mrworker ../../mrapps/early_exit.so &
+  timeout -k 2s 180s ../mrworker ../../mrapps/early_exit.so &
+  timeout -k 2s 180s ../mrworker ../../mrapps/early_exit.so &
 
-# wait for any of the coord or workers to exit
-# `jobs` ensures that any completed old processes from other tests
-# are not waited upon
-jobs &> /dev/null
-wait -n
+  # wait for any of the coord or workers to exit
+  # `jobs` ensures that any completed old processes from other tests
+  # are not waited upon
+  jobs &> /dev/null
+  wait -n
 
-# a process has exited. this means that the output should be finalized
-# otherwise, either a worker or the coordinator exited early
-sort mr-out* | grep . > mr-wc-all-initial
+  # a process has exited. this means that the output should be finalized
+  # otherwise, either a worker or the coordinator exited early
+  sort mr-out* | grep . > mr-wc-all-initial
 
-# wait for remaining workers and coordinator to exit.
-wait
+  # wait for remaining workers and coordinator to exit.
+  wait
 
-# compare initial and final outputs
-sort mr-out* | grep . > mr-wc-all-final
-if cmp mr-wc-all-final mr-wc-all-initial
-then
-  echo '---' early exit test: PASS
-else
-  echo '---' output changed after first worker exited
-  echo '---' early exit test: FAIL
-  failed_any=1
-fi
-rm -f mr-*
+  # compare initial and final outputs
+  sort mr-out* | grep . > mr-wc-all-final
+  if cmp mr-wc-all-final mr-wc-all-initial
+  then
+    echo '---' early exit test: PASS
+  else
+    echo '---' output changed after first worker exited
+    echo '---' early exit test: FAIL
+    failed_any=1
+  fi
+  rm -f mr-*
+  echo "Back to zsh!"
+'
 
 #########################################################
 echo '***' Starting crash test.
